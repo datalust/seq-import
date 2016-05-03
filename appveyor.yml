@@ -1,0 +1,21 @@
+version: 0.1.{build}
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}.0'
+  assembly_file_version: '{version}.0'
+  assembly_informational_version: '{version}'
+build:
+  project: seq-import.sln
+  publish_nuget: true
+  verbosity: minimal
+deploy:
+- provider: NuGet
+  server: https://chocolatey.org
+  api_key:
+    secure: uaKxrKf00p5aXCronY5GOe9p8MEQUiA1KQc8KD/b24H5B5OSSELtXzJjJs+7TBiq
+  skip_symbols: true
+  artifact: seq-import.*.nupkg
+  on:
+    branch: master
