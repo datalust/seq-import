@@ -16,4 +16,4 @@ before_build:
 after_build:
 - cmd: >-     cd src\seq-import     nuget pack seq-import.nuspec -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory %APPVEYOR_BUILD_FOLDER%artifacts:
 - path: 'seq-import.*.nupkg'deploy_script:
-- cmd: nuget push -Source https://chocolatey.org -ApiKey %CHOCO_KEY% seq-import.%APPVEYOR_BUILD_VERSION%.nupkg
+- cmd: nuget push -Source https://chocolatey.org -ApiKey %CHOCO_KEY% %APPVEYOR_BUILD_FOLDER%\seq-import.%APPVEYOR_BUILD_VERSION%.nupkg
