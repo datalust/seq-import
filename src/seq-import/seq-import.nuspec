@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>seq-import</id>
+    <version>0.1.0</version>
+    <authors>Datalust</authors>
+    <description>A command-line tool for importing flat JSON log files into Seq</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/datalust/seq-import</projectUrl>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <iconUrl>https://getseq.net/images/nuget/seq.png</iconUrl>
+    <tags>seq json logging</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\seq-import.exe" target="tools" />
+    <file src="bin\Release\seq-import.exe.config" target="tools" />
+    <file src="bin\Release\*.dll" target="tools" />
+  </files>
+</package>

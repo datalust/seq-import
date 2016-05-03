@@ -17,6 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9359C82A-D
 		test\test_42000_is_corrupt.json = test\test_42000_is_corrupt.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{604C58AE-DDA3-42A3-810E-ED16F9D8FAF3}"
+	ProjectSection(SolutionItems) = preProject
+		asset\seq-import.ico = asset\seq-import.ico
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
