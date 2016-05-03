@@ -12,7 +12,7 @@ before_build:
   verbosity: minimal
 after_build:
 - cmd: >-     cd src\seq-import     nuget pack seq-import.nuspec -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory %APPVEYOR_BUILD_FOLDER%artifacts:
-- path: 'seq-import.{version}.nupkg'deploy:
+- path: 'seq-import.*.nupkg'deploy:
 - provider: NuGet
   server: https://chocolatey.org
   api_key:
