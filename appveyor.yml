@@ -1,5 +1,8 @@
 version: 0.1.{build}
 configuration: Release
+environment:
+  CHOCO_KEY:
+    secure: uaKxrKf00p5aXCronY5GOe9p8MEQUiA1KQc8KD/b24H5B5OSSELtXzJjJs+7TBi
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -12,12 +15,5 @@ before_build:
   verbosity: minimal
 after_build:
 - cmd: >-     cd src\seq-import     nuget pack seq-import.nuspec -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory %APPVEYOR_BUILD_FOLDER%artifacts:
-- path: 'seq-import.*.nupkg'deploy:
-- provider: NuGet
-  server: https://chocolatey.org
-  api_key:
-    secure: uaKxrKf00p5aXCronY5GOe9p8MEQUiA1KQc8KD/b24H5B5OSSELtXzJjJs+7TBiq
-  skip_symbols: true
-  artifact: 'seq-import.*.nupkg'
-  on:
-    branch: master
+- path: 'seq-import.*.nupkg'deploy_script:
+- cmd: nuget push -Source https://chocolatey.org -ApiKey %CHOCO_KEY% seq-import.%APPVEYOR_BUILD_VERSION%.nupkg
