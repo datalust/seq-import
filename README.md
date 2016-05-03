@@ -31,8 +31,10 @@ Requires .NET 4.5 or better.
 With [Chocolatey](https://chocolatey.org/packages/seq-import):
 
 ```powershell
-choco install seq-import
+choco install seq-import -Version 0.1.10
 ```
+
+(Until the Chocolatey moderation process completes, the version _must_ be specified explicitly as above.)
 
 Or, download a [zip file of the source code](https://github.com/datalust/seq-import/archive/master.zip) and build/run locally.
 
