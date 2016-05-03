@@ -1,4 +1,4 @@
-# seq-import.exe [![Chocolatey](https://img.shields.io/chocolatey/v/seq-import.svg?maxAge=2592000)](https://chocolatey.org/packages/seq-import)
+# seq-import.exe [![Build status](https://ci.appveyor.com/api/projects/status/asdjyx30m0xt4o0e/branch/master?svg=true)](https://ci.appveyor.com/project/seqlogs/seq-import/branch/master) [![Chocolatey](https://img.shields.io/chocolatey/v/seq-import.svg?maxAge=2592000)](https://chocolatey.org/packages/seq-import)
 
 A CLI tool for importing JSON-formatted log files directly into Seq.
 
