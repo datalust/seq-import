@@ -9,14 +9,15 @@ assembly_info:
 before_build:
 - cmd: nuget restore seq-import.slnbuild:
   project: seq-import.sln
-  publish_nuget: true
   verbosity: minimal
-deploy:
+after_build:
+- cmd: >-     cd src\seq-import     nuget pack seq-import.nuspec -Version {version} -OutputDirectory ..\..\artifacts:
+- path: 'seq-import.{version}.nupkg'deploy:
 - provider: NuGet
   server: https://chocolatey.org
   api_key:
     secure: uaKxrKf00p5aXCronY5GOe9p8MEQUiA1KQc8KD/b24H5B5OSSELtXzJjJs+7TBiq
   skip_symbols: true
-  artifact: seq-import.*.nupkg
+  artifact: 'seq-import.{version}.nupkg'
   on:
     branch: master
