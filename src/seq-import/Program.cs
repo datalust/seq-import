@@ -8,17 +8,20 @@ using Serilog;
 
 namespace seq_import
 {
+    using System.Linq;
+
     class Program
     {
         const string Usage = @"seq-import: Import JSON log files into Seq.
 Usage:
-    seq-import.exe <file> <server> [--apikey=<k>]
+    seq-import.exe <file> <server> [--apikey=<k>] [--p:<key>=<value>]
     seq-import.exe (-h | --help)
 Options:
-    -h --help     Show this screen.
-    <file>        The file to import.
-    <server>      The Seq server URL.
-    --apikey=<k>  Seq API key.
+    -h --help           Show this screen.
+    <file>              The file to import.
+    <server>            The Seq server URL.
+    --apikey=<k>        Seq API key.
+    --p:<key>=<value>   Add tag(s) to import.
     ";
 
         static void Main(string[] args)
@@ -31,13 +34,18 @@ Options:
             {
                 try
                 {
-                    var arguments = new Docopt().Apply(Usage, args, version: "Seq Import 0.1", exit: true);
+                    var propertyArgs = args.Where(s => s.StartsWith("--p:", StringComparison.OrdinalIgnoreCase) || s.StartsWith("--property:", StringComparison.OrdinalIgnoreCase)).ToList();
+                    var cleanedArgs = args.Except(propertyArgs).ToArray();
+
+                    var additionalTags = ParseAdditionalTagsToDictionary(propertyArgs);
+
+                    var arguments = new Docopt().Apply(Usage, cleanedArgs, version: "Seq Import 0.1", exit: true);
 
                     var server = arguments["<server>"].ToString();
                     var file = Normalize(arguments["<file>"]);
                     var apiKey = Normalize(arguments["--apikey"]);
 
-                    await Run(server, apiKey, file, 256*1024, 1024*1024);
+                    await Run(server, apiKey, file, additionalTags, 256 * 1024, 1024*1024);
                 }
                 catch (Exception ex)
                 {
@@ -47,6 +55,20 @@ Options:
             }).Wait();
         }
 
+        static Dictionary<string, string> ParseAdditionalTagsToDictionary(List<string> propertyArgs)
+        {
+            if (!propertyArgs.Any()) return null;
+
+            var additionalTags = propertyArgs
+                .Select(s => s.Split(':').Skip(1).FirstOrDefault())
+                .Select(s => s.Split('='))
+                .Where(s => s.Length >= 2)
+                .ToLookup(s => s[0], s => string.Join("=", s.Skip(1)))
+                .ToDictionary(s => s.Key, s => s.Last());
+
+            return additionalTags;
+        }
+
         static string Normalize(ValueObject v)
         {
             if (v == null) return null;
@@ -54,7 +76,7 @@ Options:
             return string.IsNullOrWhiteSpace(s) ? null : s;
         }
 
-        static async Task Run(string server, string apiKey, string file, ulong bodyLimitBytes, ulong payloadLimitBytes)
+        static async Task Run(string server, string apiKey, string file, IDictionary<string, string> additionalTags, ulong bodyLimitBytes, ulong payloadLimitBytes)
         {
             var originalFilename = Path.GetFileName(file);
             Log.Information("Opening JSON log file {OriginalFilename}", originalFilename);
@@ -64,6 +86,16 @@ Options:
             {
                 ["ImportId"] = importId
             };
+
+            if (additionalTags?.Any() ?? false)
+            {
+                Log.Information("Adding tags {@Tags} to import", additionalTags);
+
+                foreach (var p in additionalTags)
+                {
+                    tags.Add(p.Key, p.Value);
+                }
+            }
 
             var logBuffer = new LogBuffer(file, tags);
 
