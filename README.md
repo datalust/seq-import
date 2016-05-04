@@ -6,14 +6,15 @@ A CLI tool for importing JSON-formatted log files directly into Seq.
 seq-import: Import JSON log files into Seq.
 
 Usage:
-    seq-import.exe <file> <server> [--apikey=<k>]
+    seq-import.exe <file> <server> [--apikey=<k>] [--p:<key>=<value>]
     seq-import.exe (-h | --help)
 
 Options:
-    -h --help     Show this screen.
-    <file>        The file to import.
-    <server>      The Seq server URL.
-    --apikey=<k>  Seq API key.
+    -h --help           Show this screen.
+    <file>              The file to import.
+    <server>            The Seq server URL.
+    --apikey=<k>        Seq API key.
+    --p:<key>=<value>   Add tag(s) to import.
 ```
 
 Example:
@@ -23,6 +24,12 @@ seq-import.exe myapp.json https://my-seq --apikey=jhfaty89thfajkafhkl
 ```
 
 The command will print a GUID `ImportId`, which will also be attached to the imported events in Seq.
+
+```
+seq-import.exe myapp.json https://my-seq --p:user=myappuser1 --p:email=myappuser@email.com
+```
+
+The command will attach the following tags: `user` and `email` to all imported events in Seq.
 
 ### Installation
 
