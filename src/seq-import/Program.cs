@@ -60,8 +60,7 @@ Options:
             if (!propertyArgs.Any()) return null;
 
             var additionalTags = propertyArgs
-                .Select(s => s.Split(':').Skip(1).FirstOrDefault())
-                .Select(s => s.Split('='))
+                .Select(s => s.Split(':').Skip(1).FirstOrDefault()?.Split('=') ?? new string[0])
                 .Where(s => s.Length >= 2)
                 .ToLookup(s => s[0], s => string.Join("=", s.Skip(1)))
                 .ToDictionary(s => s.Key, s => s.Last());
