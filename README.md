@@ -49,7 +49,7 @@ Newline-separated JSON is the only format currently supported. The fields are:
 
  * `Timestamp` - an ISO 8601 timestamp with optional timezone
  * `Level` - (optional) either `Verbose`, `Debug`, `Information`, `Warning`, `Error`, `Fatal`
- * `MessageTemplate` - a Serilog-compatible [message template](https://github.com/adamchester/messagetemplates)
+ * `MessageTemplate` - a Serilog-compatible [message template](https://github.com/messagetemplates)
  * `Properties` (optional) - a dictionary of property values
  * `Renderings` (optional) - a dictionary of programming-language-specific formattings of properties that appear in the message template
 
